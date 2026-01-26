@@ -18,11 +18,13 @@ class BookingClient(BaseClient):
         json_dict = super()._request("GET", booking_id_endpoint).json()
         return BookingModel(**json_dict)
 
-    def create_booking(self, booking_data: BookingModel) -> dict:
+    def create_booking(self, booking_data: BookingModel) -> Response:
         create_booking_r = self._request(
-            "POST", endpoint=self._endpoint_url, json=booking_data.model_dump()
+            "POST",
+            endpoint=self._endpoint_url,
+            json=booking_data.model_dump(mode="json"),
         )
-        return create_booking_r.json()
+        return create_booking_r
 
     def delete_booking(self, id: int, token: str) -> Response:
         delete_endpoint = f"{self._endpoint_url}/{id}"
